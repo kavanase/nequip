@@ -24,6 +24,7 @@ Most recent change on the bottom.
 - Support for Gaussian Mixture Model uncertainty quantification (https://doi.org/10.1063/5.0136574)
 - `start_of_epoch_callbacks`
 - `nequip.train.callbacks.loss_schedule.SimpleLossSchedule` for changing the loss coefficients at specified epochs
+- `nequip-deploy build --checkpoint` and `--override` to avoid many largely duplicated YAML files
 
 ### Changed
 - Always require explicit `seed`
