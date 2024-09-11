@@ -100,6 +100,7 @@ def main(args=None, running_as_script: bool = True):
         config.update(override_options)
         trainer = fresh_start(config)
         # copy original config to training directory
+        train_dir = f"{config.root}/{config.run_name}"  # in case changed due to being wandb sweep
         shutil.copyfile(path_to_config, f"{train_dir}/original_config.yaml")
     else:  # restart
         # perform string matching for original config and restart config

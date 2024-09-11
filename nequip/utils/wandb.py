@@ -24,9 +24,19 @@ def init_n_update(config):
         project=config.wandb_project,
         config=conf_dict,
         name=config.run_name,
-        resume="allow",
+        resume="auto",
         id=config.run_id,
+        settings=wandb.Settings(_disable_stats=True)
     )
+    wandb.mark_preempting()
+
+    if wandb.run.sweep_id:
+        print(f"This run is part of a sweep with sweep_id: {wandb.run.sweep_id}")
+        config.run_name = wandb.run.sweep_id
+#        config["run_name"] = wandb.run.sweep_id
+    else:
+        print("This run is not part of a sweep.")
+
     # # download from wandb set up
     updated_parameters = dict(wandb.config)
     for k, v_new in updated_parameters.items():
@@ -52,4 +62,5 @@ def resume(config):
         project=config.wandb_project,
         resume="must",
         id=config.run_id,
+        settings=wandb.Settings(_disable_stats=True)
     )
