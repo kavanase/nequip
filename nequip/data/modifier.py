@@ -13,7 +13,7 @@ It should implement
 import torch
 from . import AtomicDataDict, _key_registry
 from nequip.nn.utils import with_edge_vectors_
-from typing import Optional, Union, List
+from typing import Optional, Union, List, Sequence
 
 
 class BaseModifier:
@@ -109,3 +109,32 @@ class NumNeighbors(BaseModifier):
     @property
     def type(self) -> str:
         return "node"
+
+
+class ProductModifier(BaseModifier):
+    """Returns product of several fields from ``AtomicDataDict``."""
+
+    def __init__(self, fields: Sequence[str]) -> None:
+        # == sanity checks ==
+        assert len(fields) >= 2
+        field_type = _key_registry.get_field_type(fields[0])
+        for field in fields:
+            assert _key_registry.get_field_type(field) == field_type
+        # first field goes first
+        super().__init__(fields[0])
+        self.fields = fields
+
+    def _func(self, data: AtomicDataDict.Type) -> torch.Tensor:
+        out = data[self.fields[0]]
+        for field in self.fields[1:]:
+            out = out * data[field]
+        return out
+
+    def __str__(self) -> str:
+        return "*".join(
+            [_key_registry.ABBREV.get(field, field) for field in self.fields]
+        )
+
+    @property
+    def type(self) -> str:
+        return _key_registry.get_field_type(self.field)

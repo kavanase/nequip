@@ -24,7 +24,13 @@ from .stats import (
     Min,
 )
 from .stats_manager import DataStatisticsManager
-from .modifier import BaseModifier, PerAtomModifier, EdgeLengths, NumNeighbors
+from .modifier import (
+    BaseModifier,
+    PerAtomModifier,
+    ProductModifier,
+    EdgeLengths,
+    NumNeighbors,
+)
 
 
 __all__ = [
@@ -53,6 +59,7 @@ __all__ = [
     Min,
     BaseModifier,
     PerAtomModifier,
+    ProductModifier,
     EdgeLengths,
     NumNeighbors,
 ]
