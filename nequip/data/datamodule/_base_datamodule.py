@@ -1,6 +1,7 @@
 import torch
 from torch.utils.data import DataLoader
 from .. import AtomicDataDict
+from .._key_registry import register_fields
 from nequip.utils.logger import RankedLogger
 
 import lightning
@@ -35,6 +36,7 @@ class NequIPDataModule(lightning.LightningDataModule):
         val_dataloader_kwargs (Dict): arguments of the validation ``DataLoader``
         test_dataloader_kwargs (Dict): arguments of the testing ``DataLoader``
         predict_dataloader_kwargs (Dict): arguments of the prediction ``DataLoader``
+        custom_fields (Dict): custom fields to be registered by ``nequip.data.register_fields``
         stats_manager (Dict): dictionary that can be instantiated into a ``nequip.data.DataStatisticsManager`` object
     """
 
@@ -50,6 +52,7 @@ class NequIPDataModule(lightning.LightningDataModule):
         val_dataloader_kwargs: Dict = {},
         test_dataloader_kwargs: Dict = {},
         predict_dataloader_kwargs: Dict = {},
+        custom_fields: Dict = {},
         stats_manager: Optional[Dict] = None,
     ):
         super().__init__()
@@ -143,6 +146,9 @@ class NequIPDataModule(lightning.LightningDataModule):
         self.val_dataloader_kwargs = val_dataloader_kwargs
         self.test_dataloader_kwargs = test_dataloader_kwargs
         self.predict_dataloader_kwargs = predict_dataloader_kwargs
+
+        # == register custom fields ==
+        register_fields(**custom_fields)
 
         # == data statistics manager ==
         self.stats_manager_cfg = stats_manager

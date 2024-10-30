@@ -25,6 +25,7 @@ class ASEDataModule(NequIPDataModule):
         val_dataloader_kwargs (Dict): arguments of the validation ``DataLoader``
         test_dataloader_kwargs (Dict): arguments of the testing ``DataLoader``
         predict_dataloader_kwargs (Dict): arguments of the prediction ``DataLoader``
+        custom_fields (Dict): custom fields to be registered by ``nequip.data.register_fields``
         stats_manager (Dict): dictionary that can be instantiated into a ``nequip.data.DataStatisticsManager`` object
     """
 
@@ -49,6 +50,7 @@ class ASEDataModule(NequIPDataModule):
         val_dataloader_kwargs: Union[dict, DictConfig] = {},
         test_dataloader_kwargs: Union[dict, DictConfig] = {},
         predict_dataloader_kwargs: Union[dict, DictConfig] = {},
+        custom_fields: Dict = {},
         stats_manager: Optional[Dict] = None,
     ):
 
@@ -118,5 +120,6 @@ class ASEDataModule(NequIPDataModule):
             val_dataloader_kwargs=val_dataloader_kwargs,
             test_dataloader_kwargs=test_dataloader_kwargs,
             predict_dataloader_kwargs=predict_dataloader_kwargs,
+            custom_fields=custom_fields,
             stats_manager=stats_manager,
         )
